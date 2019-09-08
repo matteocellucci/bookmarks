@@ -16,10 +16,11 @@ Options:
   --help  Show this message and exit.
 
 Commands:
-  find   Find a bookmark.
-  ls     List all bookmarks.
-  rm     Remove target bookmark.
-  touch  Create or update a bookmark.
+  editor  Open default editor to write notes about a resource.
+  find    Find a bookmark.
+  ls      List all bookmarks.
+  rm      Remove target bookmark.
+  touch   Create or update a bookmark.
 ```
 
 ## Installation

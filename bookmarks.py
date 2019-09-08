@@ -1,4 +1,5 @@
 import os
+import hashlib
 import json
 import click
 
@@ -29,6 +30,14 @@ def touch(title, tags, url):
     click.echo("Saved.")
 
 @cli.command()
+@click.argument("url")
+@click.argument("editor", envvar="EDITOR")
+def editor(url, editor):
+    """Open default editor to write notes about a resource. If $EDITOR is not
+    set an editor's name should be passed."""
+    os.system(f"{editor} {_notes_path(url)}")
+
+@cli.command()
 @click.argument("target", type=int)
 def rm(target):
     """Remove target bookmark. Indexes are update after each deletion."""
@@ -57,6 +66,13 @@ def _data_path():
     if not os.path.exists(path):
         os.makedirs(path)
     return f"{path}/data.json"
+
+def _notes_path(target):
+    path = f"{_base_path()}/bookmarks"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    digested_url = hashlib.sha1(target.encode()).hexdigest()
+    return f"{path}/{digested_url}"
 
 def _load_data():
     try:
