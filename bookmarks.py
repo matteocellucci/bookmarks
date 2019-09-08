@@ -27,11 +27,11 @@ def touch(title, tags, url):
     click.echo("Saved.")
 
 @cli.command()
-@click.argument("index")
+@click.argument("index", type=int)
 def rm(index):
     bookmarks = _load_data()
     try:
-        bookmarks.pop(int(index))
+        bookmarks.pop(index)
         _save_data(bookmarks)
         click.echo("Removed.")
     except IndexError:
