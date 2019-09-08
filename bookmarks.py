@@ -43,7 +43,7 @@ def rm(target):
     """Remove target bookmark. Indexes are update after each deletion."""
     bookmarks = _load_data()
     try:
-        bookmarks.pop(index)
+        bookmarks.pop(target)
         _save_data(bookmarks)
         click.echo('Removed.')
     except IndexError:
