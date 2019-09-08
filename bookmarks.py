@@ -1,7 +1,8 @@
 import os
 import json
 import click
-from hashlib import sha1
+import hashlib
+
 from datetime import datetime
 
 @click.group()
@@ -33,11 +34,13 @@ def touch(title, tags, url):
 
 @cli.command()
 @click.argument('url')
-@click.argument('editor', envvar='EDITOR')
+@click.argument('editor', envvar='EDITOR', default='vim', required=False)
 def editor(url, editor):
-    """Open default editor to write notes about a resource. If $EDITOR is not
-    set an editor's name should be passed."""
-    os.system(f'{editor} {_notes_path(url)}')
+    """
+    Open default editor to write notes about a resource. If $EDITOR is not
+    set an editor's name should be passed.
+    """
+    _open_editor(url, editor)
 
 @cli.command()
 @click.argument('target', type=int)
@@ -53,12 +56,16 @@ def rm(target):
 
 @cli.command()
 @click.option('--url-only', is_flag=True, help='Print only the bookmark\'s url.')
+@click.option('--editor', is_flag=True, help='Open editor related to first foundbookmark. It is not possibile to specify an editor as argument.')
 @click.argument('terms', nargs=-1)
-def find(url_only, terms):
+def find(url_only, editor, terms):
     """Find a bookmark. Use doublequotes to search an exact match."""
     for i, bookmark in enumerate(_load_data()):
         for term in terms:
             if _match_bookmark(term, bookmark):
+                if editor:
+                   _open_editor(bookmark['url'], os.environ.get('EDITOR', 'vim'))
+                   return
                 if url_only:
                     click.echo(bookmark['url'])
                 else:
@@ -72,13 +79,6 @@ def _data_path():
     if not os.path.exists(path):
         os.makedirs(path)
     return f'{path}/data.json'
-
-def _notes_path(target):
-    path = f'{_base_path()}/bookmarks'
-    if not os.path.exists(path):
-        os.makedirs(path)
-    digested_url = hashlib.sha1(target.encode()).hexdigest()
-    return f'{path}/{digested_url}'
 
 def _load_data():
     try:
@@ -104,6 +104,13 @@ def _clean_tags(tags):
 
 def _now():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def _open_editor(url, editor):
+    path = f'{_base_path()}/bookmarks'
+    if not os.path.exists(path):
+        os.makedirs(path)
+    digested_url = hashlib.sha1(url.encode()).hexdigest()
+    os.system(f'{editor} {path}/{digested_url}')
 
 if __name__ == '__main__':
     cli()
