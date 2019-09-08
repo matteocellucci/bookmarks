@@ -37,7 +37,7 @@ def touch(title, tags, url):
 @click.argument('editor', envvar='EDITOR', default='vim', required=False)
 def editor(url, editor):
     """
-    Open default editor to write notes about a resource. If $EDITOR is not
+    Open default editor to write notes about a bookmark. If $EDITOR is not
     set an editor's name should be passed.
     """
     _open_editor(url, editor)
