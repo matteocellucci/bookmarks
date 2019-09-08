@@ -15,8 +15,8 @@ def ls():
         click.echo(f'{i}# {bookmark}')
 
 @cli.command()
-@click.option('--title', default='', help='Resource title')
-@click.option('--tags', default='', help='Comma separted words')
+@click.option('--title', default='', help='Resource title.')
+@click.option('--tags', default='', help='Comma separted words.')
 @click.argument('url')
 def touch(title, tags, url):
     """Create or update a bookmark. Bookmarks are identified by their url."""
@@ -50,7 +50,7 @@ def rm(target):
         raise click.ClickException('Bookmark not found')
 
 @cli.command()
-@click.option('--url-only', is_flag=True, help='Print only the bookmark\'s url')
+@click.option('--url-only', is_flag=True, help='Print only the bookmark\'s url.')
 @click.argument('terms', nargs=-1)
 def find(url_only, terms):
     """Find a bookmark. Use doublequotes to search an exact match."""
