@@ -50,13 +50,17 @@ def rm(target):
         raise click.ClickException("Bookmark not found")
 
 @cli.command()
+@click.option("--url-only", is_flag=True, help="Print only the bookmark's url")
 @click.argument("terms", nargs=-1)
-def find(terms):
+def find(url_only, terms):
     """Find a bookmark. Use doublequotes to search an exact match."""
     for i, bookmark in enumerate(_load_data()):
         for term in terms:
             if _match_bookmark(term, bookmark):
-                click.echo(f"{i}# {bookmark}")
+                if url_only:
+                    click.echo(bookmark["url"])
+                else:
+                    click.echo(f"{i}# {bookmark}")
 
 def _base_path():
     return os.environ.get("XDG_DATA_HOME", f"{os.environ['HOME']}/.local/share")
