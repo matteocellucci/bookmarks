@@ -4,11 +4,12 @@ import click
 
 @click.group()
 def cli():
-    """A dumb resources bookmarks system"""
+    """A dumb bookmarks system."""
     pass
 
 @cli.command()
 def ls():
+    """List all bookmarks."""
     for i, bookmark in enumerate(_load_data()):
         click.echo(f"{i}# {bookmark}")
 
@@ -17,6 +18,7 @@ def ls():
 @click.option("--tags", default="", help="Comma separted words")
 @click.argument("url")
 def touch(title, tags, url):
+    """Create or update a bookmark. Bookmarks are identified by their url."""
     bookmarks = _load_data()
     generator = (bookmark for bookmark in bookmarks if bookmark["url"] == url)
     bookmark = next(generator, { "url": url })
@@ -27,8 +29,9 @@ def touch(title, tags, url):
     click.echo("Saved.")
 
 @cli.command()
-@click.argument("index", type=int)
-def rm(index):
+@click.argument("target", type=int)
+def rm(target):
+    """Remove target bookmark. Indexes are update after each deletion."""
     bookmarks = _load_data()
     try:
         bookmarks.pop(index)
@@ -40,6 +43,7 @@ def rm(index):
 @cli.command()
 @click.argument("terms", nargs=-1)
 def find(terms):
+    """Find a bookmark. Use doublequotes to search an exact match."""
     for i, bookmark in enumerate(_load_data()):
         for term in terms:
             if _match_bookmark(term, bookmark):
