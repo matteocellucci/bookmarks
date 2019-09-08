@@ -11,7 +11,7 @@ def cli():
 @cli.command()
 def ls():
     for i, bookmark in enumerate(_load_data()):
-        print(f"{i}# {bookmark}")
+        click.echo(f"{i}# {bookmark}")
 
 @cli.command()
 @click.option("--title", default="", help="Resource title")
@@ -25,7 +25,7 @@ def touch(title, tags, url):
     if bookmark not in bookmarks:
         bookmarks.append(bookmark)
     _save_data(bookmarks)
-    print("Saved.")
+    click.echo("Saved.")
 
 @cli.command()
 @click.argument("index")
@@ -34,7 +34,7 @@ def rm(index):
     try:
         bookmarks.pop(int(index))
         _save_data(bookmarks)
-        print("Removed.")
+        click.echo("Removed.")
     except IndexError:
         raise click.ClickException("Bookmark not found")
 
@@ -44,7 +44,7 @@ def find(terms):
     for i, bookmark in enumerate(_load_data()):
         for term in terms:
             if _match_bookmark(term, bookmark):
-                print(f"{i}# {bookmark}")
+                click.echo(f"{i}# {bookmark}")
 
 def _base_path():
     return os.environ.get("XDG_DATA_HOME", f"{os.environ['HOME']}/.local/share")
