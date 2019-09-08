@@ -6,6 +6,7 @@ import click
 
 @click.group()
 def cli():
+    """A dumb resources bookmarks system"""
     pass
 
 @cli.command()
