@@ -1,5 +1,8 @@
 # Bookmarks
 
+[![License GPLV3](https://www.gnu.org/graphics/gplv3-88x31.png "License GPLv3")
+](https://github.com/matteocellucci/nit/blob/master/LICENSE)
+
 A dumb resource bookmarks CLI
 
 ## Usage
