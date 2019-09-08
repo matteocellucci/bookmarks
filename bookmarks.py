@@ -46,9 +46,11 @@ def find(terms):
             if _match_bookmark(term, bookmark):
                 print(f"{i}# {bookmark}")
 
+def _base_path():
+    return os.environ.get("XDG_DATA_HOME", f"{os.environ['HOME']}/.local/share")
+
 def _data_path():
-    path = os.environ.get("XDG_DATA_HOME", f"{os.environ['HOME']}/.local/share")
-    path = f"{path}/bookmarks"
+    path = f"{_base_path()}/bookmarks"
     if not os.path.exists(path):
         os.makedirs(path)
     return f"{path}/data.json"
