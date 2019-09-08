@@ -110,7 +110,7 @@ def _open_editor(url, editor):
     if not os.path.exists(path):
         os.makedirs(path)
     digested_url = hashlib.sha1(url.encode()).hexdigest()
-    os.system(f'{editor} {path}/{digested_url}')
+    os.system(f'{editor} {path}/{digested_url}.md')
 
 if __name__ == '__main__':
     cli()
