@@ -1,7 +1,8 @@
 import os
-import hashlib
 import json
 import click
+from hashlib import sha1
+from datetime import datetime
 
 @click.group()
 def cli():
@@ -23,8 +24,9 @@ def touch(title, tags, url):
     bookmarks = _load_data()
     generator = (bookmark for bookmark in bookmarks if bookmark['url'] == url)
     bookmark = next(generator, { 'url': url })
-    bookmark.update({ 'title': title, 'tags': _clean_tags(tags) })
+    bookmark.update({ 'title': title, 'tags': _clean_tags(tags), 'updated_at': _now() })
     if bookmark not in bookmarks:
+        bookmark.update({ 'created_at': _now() })
         bookmarks.append(bookmark)
     _save_data(bookmarks)
     click.echo('Saved.')
@@ -99,6 +101,9 @@ def _clean_tags(tags):
     if '' in tags:
         tags.remove('')
     return sorted(tags)
+
+def _now():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 if __name__ == '__main__':
     cli()
