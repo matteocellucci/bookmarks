@@ -56,14 +56,14 @@ def rm(target):
 
 @cli.command()
 @click.option('--url-only', is_flag=True, help='Print only the bookmark\'s url.')
-@click.option('--editor', is_flag=True, help='Open editor related to first foundbookmark. It is not possibile to specify an editor as argument.')
+@click.option('--edit', is_flag=True, help='Open editor related to first foundbookmark. It is not possibile to specify an editor as argument.')
 @click.argument('terms', nargs=-1)
-def find(url_only, editor, terms):
+def find(url_only, edit, terms):
     """Find a bookmark. Use doublequotes to search an exact match."""
     for i, bookmark in enumerate(_load_data()):
         for term in terms:
             if _match_bookmark(term, bookmark):
-                if editor:
+                if edit:
                    _open_editor(bookmark['url'], os.environ.get('EDITOR', 'vim'))
                    return
                 if url_only:
