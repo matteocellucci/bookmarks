@@ -59,19 +59,23 @@ def rm(target):
 @cli.command()
 @click.option('--url-only', is_flag=True, help='Print only the bookmark\'s url.')
 @click.option('--edit', is_flag=True, help='Open editor related to first foundbookmark. It is not possibile to specify an editor as argument.')
+@click.option('--browse', is_flag=True, help='Open bookmark inside the default browser. It uses xdg standards.')
 @click.argument('terms', nargs=-1)
-def find(url_only, edit, terms):
+def find(url_only, edit, browse, terms):
     """Find a bookmark. Use doublequotes to search an exact match."""
     for i, bookmark in enumerate(_load_data()):
         for term in terms:
             if _match_bookmark(term, bookmark):
-                if edit:
+               if edit:
                    _open_editor(bookmark['url'], os.environ.get('EDITOR', 'vim'))
                    return
-                if url_only:
-                    click.echo(bookmark['url'])
-                else:
-                    click.echo(f'{i}# {bookmark}')
+               if browse:
+                   _open_link(bookmark['url'])
+                   return
+               if url_only:
+                   click.echo(bookmark['url'])
+               else:
+                   click.echo(f'{i}# {bookmark}')
 
 def _base_path():
     return os.environ.get('XDG_DATA_HOME', f'{os.environ["HOME"]}/.local/share')
@@ -113,6 +117,9 @@ def _open_editor(url, editor):
         os.makedirs(path)
     digested_url = hashlib.sha1(url.encode()).hexdigest()
     os.system(f'{editor} {path}/{digested_url}.md')
+
+def _open_link(url):
+    os.system(f'xdg-open {url}')
 
 if __name__ == '__main__':
     cli()
