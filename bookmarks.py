@@ -46,6 +46,15 @@ def editor(url, editor):
 
 @cli.command()
 @click.argument('target', type=int)
+def browse(target):
+    """
+    Open target bookmark in default browser. It uses xdg standards.
+    """
+    bookmark = _load_data()[target]
+    _open_link(bookmark['url'])
+
+@cli.command()
+@click.argument('target', type=int)
 def rm(target):
     """Remove target bookmark. Indexes are update after each deletion."""
     bookmarks = _load_data()
