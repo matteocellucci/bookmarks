@@ -35,14 +35,15 @@ def touch(title, tags, url):
     click.echo('Saved.')
 
 @cli.command()
-@click.argument('url')
+@click.argument('target', type=int)
 @click.argument('editor', envvar='EDITOR', default='vim', required=False)
-def editor(url, editor):
+def editor(target, editor):
     """
     Open default editor to write notes about a bookmark. If $EDITOR is not
     set an editor's name should be passed.
     """
-    _open_editor(url, editor)
+    bookmark = _load_data()[target]
+    _open_editor(bookmark['url'], editor)
 
 @cli.command()
 @click.argument('target', type=int)
