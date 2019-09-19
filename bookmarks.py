@@ -37,7 +37,7 @@ def touch(title, tags, url):
 @cli.command()
 @click.argument('target', type=int)
 @click.argument('editor', envvar='EDITOR', default='vim', required=False)
-def editor(target, editor):
+def edit(target, editor):
     """
     Open default editor to write notes about a bookmark. If $EDITOR is not
     set an editor's name should be passed.
