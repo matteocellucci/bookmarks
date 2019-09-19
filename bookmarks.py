@@ -9,7 +9,7 @@ from datetime import datetime
 
 @click.group()
 def cli():
-    """A dumb bookmarks system."""
+    """A dumb bookmarks system. Search over organization."""
     pass
 
 @cli.command()
