@@ -27,14 +27,14 @@ Commands:
 
 Maybe you will find one of these tips handy:
 
-### Th' linux way
+### The linux way
 
 1. Make sure `~/.local/bin` is in your `$PATH`;
 2. `git clone https://github.com/matteocellucci/bookmarks.git`;
 3. `ln -s $(pwd)/bookmarks/bookmarks.py ~/.local/bin/bookmarks`;
 4. Enjoy `bookmarks` from anywhere.
 
-### Th' python-ish way
+### The python-ish way
 
 1. `git clone https://github.com/matteocellucci/bookmarks.git`;
 2. `cd bookmarks`
